@@ -35,15 +35,15 @@ void GlRectangle::selfSetVertex(GlVertex ver0, GlVertex ver1, GlVertex ver2,
 }
 
 void GlRectangle::draw_rectangle(GlVertex& ver0, GlVertex& ver1,
-		GlVertex& ver2, GlVertex& ver3) {
+                                 GlVertex& ver2, GlVertex& ver3) {
 	glBegin(GL_QUADS);
 	{
-		glVertex3f(ver0.getX(), ver0.getY(), ver0.getZ());
-		glVertex3f(ver1.getX(), ver1.getY(), ver1.getZ());
-		glVertex3f(ver2.getX(), ver2.getY(), ver2.getZ());
-		glVertex3f(ver3.getX(), ver3.getY(), ver3.getZ());
-
-		glEnd();
+            glTexCoord2f(0.0f, 0.0f); glVertex3f(ver0.getX(), ver0.getY(), ver0.getZ());
+            glTexCoord2f(1.0f, 0.0f); glVertex3f(ver1.getX(), ver1.getY(), ver1.getZ());
+            glTexCoord2f(1.0f, 1.0f); glVertex3f(ver2.getX(), ver2.getY(), ver2.getZ());
+            glTexCoord2f(0.0f, 1.0f); glVertex3f(ver3.getX(), ver3.getY(), ver3.getZ());
+            
+            glEnd();
 	}
 }
 

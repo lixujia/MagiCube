@@ -20,17 +20,19 @@ GlSurface::~GlSurface() {
 	// TODO Auto-generated destructor stub
 }
 
-GlSurface::GlSurface(GlVertex ver0, GlVertex ver1, GlVertex ver2, GlVertex ver3) {
+GlSurface::GlSurface(GlVertex ver0, GlVertex ver1,
+                     GlVertex ver2, GlVertex ver3,
+                     char const* texPath) {
 	this->selfSetVertex(ver0, ver1, ver2, ver3);
-	this->setSubSquares();
+	this->setSubSquares(texPath);
 }
 
-GlSurface::GlSurface(GlVertex vertex[4]) {
+GlSurface::GlSurface(GlVertex vertex[4],char const* texPath) {
 	this->selfSetVertex(vertex[0], vertex[1], vertex[2], vertex[3]);
-	this->setSubSquares();
+	this->setSubSquares(texPath);
 }
 
-void GlSurface::setSubSquares() {
+void GlSurface::setSubSquares(char const* texPath) {
 	GlVertex tmp[16];
 	GlVertex __tmp[4];
 	GlVector vx;
@@ -65,7 +67,7 @@ void GlSurface::setSubSquares() {
 			__tmp[2] = tmp[(i + 1) * 4 + j + 1];
 			__tmp[3] = tmp[(i + 1) * 4 + j];
 
-			this->squares[0][i][j] = new GlSquare(__tmp);
+			this->squares[0][i][j] = new GlSquare(__tmp,texPath);
 		}
 	}
 

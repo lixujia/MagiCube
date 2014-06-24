@@ -16,7 +16,7 @@
 class GlSquare: public GlRectangle, public GlPickable {
 public:
 	GlSquare();
-	GlSquare(GlVertex vertex[4]);
+	GlSquare(GlVertex vertex[4],char const* texPath);
 	virtual ~GlSquare();
 
 	GlSquare& operator =(const GlSquare& square);
@@ -28,6 +28,7 @@ public:
 	bool getHighLight();
 private:
 	bool highLight;
+        GLuint texture[1];
 	GlVertex subsquare[4];
 };
 

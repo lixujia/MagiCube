@@ -15,8 +15,8 @@ class GlSurface: public GlRectangle {
 	friend class MagiCube;
 public:
 	GlSurface();
-	GlSurface(GlVertex vertex[4]);
-	GlSurface(GlVertex ver0, GlVertex ver1, GlVertex ver2, GlVertex ver3);
+	GlSurface(GlVertex vertex[4],char const* texPath);
+	GlSurface(GlVertex ver0, GlVertex ver1, GlVertex ver2, GlVertex ver3,char const* texPath);
 	virtual ~GlSurface();
 	void transposeLeft();
 	void transposeRight();
@@ -25,7 +25,7 @@ public:
 
 	void draw();
 private:
-	void setSubSquares();
+	void setSubSquares(char const* texPath);
 
 	GlSquare* squares[2][3][3];
 };

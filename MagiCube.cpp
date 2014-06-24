@@ -35,7 +35,8 @@ MagiCube::MagiCube(GlVertex ver[8]) {
 	GlVertex tmp_ver[4];
 
 	int i, j;
-
+        int lastRandFloor = 0;
+        
 	ver2 = ver + 4;
 
 	this->pressedSquare = NULL;
@@ -56,9 +57,9 @@ MagiCube::MagiCube(GlVertex ver[8]) {
 		}
 	}
 
-	surface[0][0] = new GlSurface(ver[1], ver[0], ver[3], ver[2]);
+	surface[0][0] = new GlSurface(ver[1], ver[0], ver[3], ver[2], "blue.bmp");
 	surface[0][0]->setFrontColor(1.0, 0.0, 0.0);
-	surface[0][1] = new GlSurface(ver2[0], ver2[1], ver2[2], ver2[3]);
+	surface[0][1] = new GlSurface(ver2[0], ver2[1], ver2[2], ver2[3], "red.bmp");
 	surface[0][1]->setFrontColor(0.0, 1.0, 0.0);
 
 	tmp_ver[0] = ver2[0] + (ver[0] - ver2[0]) * (2.0 / 3.0);
@@ -77,9 +78,9 @@ MagiCube::MagiCube(GlVertex ver[8]) {
 	this->rects[0][2]->setVertex(tmp_ver);
 	this->rects[0][3]->setVertex(tmp_ver);
 
-	surface[1][0] = new GlSurface(ver[1], ver2[1], ver2[0], ver[0]);
+	surface[1][0] = new GlSurface(ver[1], ver2[1], ver2[0], ver[0], "green.bmp");
 	surface[1][0]->setFrontColor(0.0, 0.0, 1.0);
-	surface[1][1] = new GlSurface(ver2[2], ver[2], ver[3], ver2[3]);
+	surface[1][1] = new GlSurface(ver2[2], ver[2], ver[3], ver2[3], "white.bmp");
 	surface[1][1]->setFrontColor(1.0, 1.0, 0.0);
 
 	tmp_ver[0] = ver2[2] + (ver2[1] - ver2[2]) * (2.0 / 3.0);
@@ -98,9 +99,9 @@ MagiCube::MagiCube(GlVertex ver[8]) {
 	this->rects[1][2]->setVertex(tmp_ver);
 	this->rects[1][3]->setVertex(tmp_ver);
 
-	surface[2][0] = new GlSurface(ver[1], ver[2], ver2[2], ver2[1]);
+	surface[2][0] = new GlSurface(ver[1], ver[2], ver2[2], ver2[1], "yellow.bmp");
 	surface[2][0]->setFrontColor(1.0, 0.0, 1.0);
-	surface[2][1] = new GlSurface(ver[3], ver[0], ver2[0], ver2[3]);
+	surface[2][1] = new GlSurface(ver[3], ver[0], ver2[0], ver2[3], "purple.bmp");
 	surface[2][1]->setFrontColor(0.0, 1.0, 1.0);
 
 	tmp_ver[0] = ver[3] + (ver[2] - ver[3]) * (2.0 / 3.0);
@@ -159,8 +160,14 @@ MagiCube::MagiCube(GlVertex ver[8]) {
 
 		oper = (RotateOper*) malloc(sizeof(RotateOper));
 		oper->rotateFloorM = rand() % 3;
+                if (lastRandFloor == oper->rotateFloorM)
+                {
+                    oper->rotateFloorM = (oper->rotateFloorM + 2) % 3;
+                }
+                lastRandFloor = oper->rotateFloorM;
+                
 		oper->rotateFloorS = rand() % 3;
-		oper->rotateSteps = rand() % 4;
+		oper->rotateSteps = rand() % 3;
 		--oper->rotateSteps;
 
 		this->rotating = true;
@@ -174,53 +181,53 @@ MagiCube::~MagiCube() {
 }
 
 void MagiCube::draw() {
-	int i;
+    int i;
 
-	glMultMatrixf(this->matSaved.getMatrix());
+    glMultMatrixf(this->matSaved.getMatrix());
 
-	if (this->rotating) {
-		if (1.0 < this->rotateAngle) {
-			this->rotateAngle -= 0.6;
-		} else if (-1.0 > this->rotateAngle) {
-			this->rotateAngle += 0.6;
-		} else {
-			this->floors[rotateFloorM][rotateFloorS]->setRotatef(0.0);
+    if (this->rotating) {
+        if (1.0 < this->rotateAngle) {
+            this->rotateAngle -= 2.0;
+        } else if (-1.0 > this->rotateAngle) {
+            this->rotateAngle += 2.0;
+        } else {
+            this->floors[rotateFloorM][rotateFloorS]->setRotatef(0.0);
 
-			if (NULL == this->rotateQueue) {
-				this->rotating = false;
-				this->rotateStep = 0;
-				this->rotateAngle = 0.0;
-			} else {
-				RotateOper* oper;
-				void* tmp;
+            if (NULL == this->rotateQueue) {
+                this->rotating = false;
+                this->rotateStep = 0;
+                this->rotateAngle = 0.0;
+            } else {
+                RotateOper* oper;
+                void* tmp;
 
-				this->rotateQueue = s_list_pop(this->rotateQueue, &tmp);
-				oper = (RotateOper*) tmp;
+                this->rotateQueue = s_list_pop(this->rotateQueue, &tmp);
+                oper = (RotateOper*) tmp;
 
-				rotateFloorM = oper->rotateFloorM;
-				rotateFloorS = oper->rotateFloorS;
-				this->rotateAngle = oper->rotateSteps * 90;
-				this->rotateStep = oper->rotateSteps;
+                rotateFloorM = oper->rotateFloorM;
+                rotateFloorS = oper->rotateFloorS;
+                this->rotateAngle = oper->rotateSteps * 90;
+                this->rotateStep = oper->rotateSteps;
 
-				if (0 > this->rotateStep) {
-					for (; 0 > this->rotateStep; ++this->rotateStep) {
-						this->floors[this->rotateFloorM][this->rotateFloorS]->transposeMinus();
-					}
-				} else {
-					for (; 0 < this->rotateStep; --this->rotateStep) {
-						this->floors[this->rotateFloorM][this->rotateFloorS]->transposePlus();
-					}
-				}
-				free(oper);
+                if (0 > this->rotateStep) {
+                    for (; 0 > this->rotateStep; ++this->rotateStep) {
+                        this->floors[this->rotateFloorM][this->rotateFloorS]->transposeMinus();
+                    }
+                } else {
+                    for (; 0 < this->rotateStep; --this->rotateStep) {
+                        this->floors[this->rotateFloorM][this->rotateFloorS]->transposePlus();
+                    }
+                }
+                free(oper);
 
-			}
-		}
-		this->floors[rotateFloorM][rotateFloorS]->setRotatef(rotateAngle);
+            }
+        }
+        this->floors[rotateFloorM][rotateFloorS]->setRotatef(rotateAngle);
 
-	}
+    }
 
-	for (i = 0; i < 3; ++i)
-		this->floors[this->rotateFloorM][i]->draw();
+    for (i = 0; i < 3; ++i)
+        this->floors[this->rotateFloorM][i]->draw();
 }
 
 void MagiCube::pickDraw() {
