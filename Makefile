@@ -24,6 +24,7 @@ objs =  GlFloor.o       \
         GlVector.o	\
         GlVertex.o	\
         MagiCube.o	\
+        BackDesktop.o   \
         main.o          \
         s-list.o
 

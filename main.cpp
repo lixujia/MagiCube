@@ -6,8 +6,10 @@
  */
 
 #include "MagiCube.h"
+#include "BackDesktop.h"
 
 MagiCube* cube = NULL;
+BackDesktop* desk = NULL;
 
 static int left_button = 0; // 1: down 0: up
 static int right_button = 0; // 1: down 0: up
@@ -28,8 +30,10 @@ void init(void) {
     vertex[7].setValue(-1.0, -1.0, -1.0);
 
     cube = new MagiCube(vertex);
-
+    desk = new BackDesktop(10,10,-2.0,"./bubble.bmp");
+    
     glClearColor(0.0, 0.0, 0.0, 0.0);
+    //glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
     glShadeModel(GL_FLAT);
 
 //	glEnable(GL_POLYGON_SMOOTH);
@@ -48,8 +52,9 @@ void display(void) {
 
     gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
+    desk->draw();
     cube->draw();
-
+    
     glutSwapBuffers();
 }
 
