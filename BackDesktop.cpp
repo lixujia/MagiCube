@@ -14,14 +14,14 @@ using namespace std;
 BackDesktop::BackDesktop(GLfloat h,GLfloat w,GLfloat d,char const* texPath)
 {
     FILE* fp = NULL;
-    unsigned char data[512 * 512 * 4];
+    unsigned char data[512 * 512 * 3];
 
     memset(data,0xFF,sizeof(data));
 
     if (NULL != (fp = fopen(texPath,"rb")))
     {
         fseek(fp,54,SEEK_SET);
-        fread(data,512*512*4,1,fp);
+        fread(data,512*512*3,1,fp);
         fclose(fp);
     }
 
@@ -30,7 +30,7 @@ BackDesktop::BackDesktop(GLfloat h,GLfloat w,GLfloat d,char const* texPath)
 
     glTexImage2D(GL_TEXTURE_2D, 0, 3,
                  512,512,
-                 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                 0, GL_BGR_EXT, GL_UNSIGNED_BYTE,
                  data);
 
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);	// 线形滤波

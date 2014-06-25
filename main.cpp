@@ -30,7 +30,7 @@ void init(void) {
     vertex[7].setValue(-1.0, -1.0, -1.0);
 
     cube = new MagiCube(vertex);
-    desk = new BackDesktop(10,10,-2.0,"./bubble.bmp");
+    desk = new BackDesktop(10,10,-2.0,"./desktop.bmp");
     
     glClearColor(0.0, 0.0, 0.0, 0.0);
     //glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
