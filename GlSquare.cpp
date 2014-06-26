@@ -50,15 +50,15 @@ GlSquare::GlSquare(GlVertex vertex[4],char const* texPath) {
 }
 
 GlSquare::~GlSquare() {
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 void GlSquare::setHighLight(bool isHigh) {
-	this->highLight = isHigh;
+    this->highLight = isHigh;
 }
 
 bool GlSquare::getHighLight() {
-	return this->highLight;
+    return this->highLight;
 }
 
 void GlSquare::draw() {
@@ -88,50 +88,50 @@ void GlSquare::draw() {
 }
 
 void GlSquare::pickDraw() {
-	if (false == this->sensitive) {
-		return;
-	}
+    if (false == this->sensitive) {
+        return;
+    }
 
-	glColor3ub(this->pickColorR, this->pickColorG, this->pickColorB);
-	GlRectangle::draw_rectangle(this->vertex[0], this->vertex[1],
-			this->vertex[2], this->vertex[3]);
+    glColor3ub(this->pickColorR, this->pickColorG, this->pickColorB);
+    GlRectangle::pick_draw_rectangle(this->vertex[0], this->vertex[1],
+                                     this->vertex[2], this->vertex[3]);
 }
 
 void GlSquare::setVertex(GlVertex vertex[4]) {
-	GlVector tmp_vec1;
-	GlVector tmp_vec2;
-	GlVector tmp_vec;
+    GlVector tmp_vec1;
+    GlVector tmp_vec2;
+    GlVector tmp_vec;
 
-	/*
-	 this->vertex[0] = vertex[0];
-	 this->vertex[1] = vertex[1];
-	 this->vertex[2] = vertex[2];
-	 this->vertex[3] = vertex[3];
-	 */
-	this->selfSetVertex(vertex[0], vertex[1], vertex[2], vertex[3]);
+    /*
+      this->vertex[0] = vertex[0];
+      this->vertex[1] = vertex[1];
+      this->vertex[2] = vertex[2];
+      this->vertex[3] = vertex[3];
+    */
+    this->selfSetVertex(vertex[0], vertex[1], vertex[2], vertex[3]);
 
-	this->subsquare[0] = vertex[0];
-	this->subsquare[1] = vertex[1];
-	this->subsquare[2] = vertex[2];
-	this->subsquare[3] = vertex[3];
+    this->subsquare[0] = vertex[0];
+    this->subsquare[1] = vertex[1];
+    this->subsquare[2] = vertex[2];
+    this->subsquare[3] = vertex[3];
 
-	tmp_vec1 = vertex[0] - vertex[2];
-	tmp_vec2 = vertex[1] - vertex[3];
+    tmp_vec1 = vertex[0] - vertex[2];
+    tmp_vec2 = vertex[1] - vertex[3];
 
-	tmp_vec = tmp_vec1 * tmp_vec2;
+    tmp_vec = tmp_vec1 * tmp_vec2;
 
-	this->subsquare[0] += (tmp_vec * 0.5 - tmp_vec1) * 0.03;
-	this->subsquare[1] += (tmp_vec * 0.5 - tmp_vec2) * 0.03;
-	this->subsquare[2] += (tmp_vec * 0.5 + tmp_vec1) * 0.03;
-	this->subsquare[3] += (tmp_vec * 0.5 + tmp_vec2) * 0.03;
+    this->subsquare[0] += (tmp_vec * 0.5 - tmp_vec1) * 0.03;
+    this->subsquare[1] += (tmp_vec * 0.5 - tmp_vec2) * 0.03;
+    this->subsquare[2] += (tmp_vec * 0.5 + tmp_vec1) * 0.03;
+    this->subsquare[3] += (tmp_vec * 0.5 + tmp_vec2) * 0.03;
 }
 
 GlSquare& GlSquare::operator =(const GlSquare& square) {
-	this->color_r = square.color_r;
-	this->color_g = square.color_g;
-	this->color_b = square.color_b;
+    this->color_r = square.color_r;
+    this->color_g = square.color_g;
+    this->color_b = square.color_b;
 
-        this->texture[0] = square.texture[0];
+    this->texture[0] = square.texture[0];
         
-	return *this;
+    return *this;
 }

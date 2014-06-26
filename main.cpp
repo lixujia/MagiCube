@@ -38,6 +38,8 @@ void init(void) {
 
 //	glEnable(GL_POLYGON_SMOOTH);
     glEnable(GL_BLEND);
+    //glEnable(GL_LIGHT0);
+    //glEnable(GL_LIGHTING);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 //	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
@@ -52,6 +54,7 @@ void display(void) {
 
     gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
+    //glutSolidSphere(1.0, 16, 16);
     desk->draw();
     cube->draw();
     

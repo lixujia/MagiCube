@@ -34,7 +34,10 @@ public:
 	GlRectangle& operator =(const GlRectangle& rect);
 
 	static void draw_rectangle(GlVertex& ver0, GlVertex& ver1, GlVertex& ver2,
-			GlVertex& ver3);
+                                   GlVertex& ver3);
+
+        static void pick_draw_rectangle(GlVertex& ver0, GlVertex& ver1, GlVertex& ver2,
+                                        GlVertex& ver3);
 protected:
 	void selfSetVertex(GlVertex ver0, GlVertex ver1, GlVertex ver2,
 			GlVertex ver3);
